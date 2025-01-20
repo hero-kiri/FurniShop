@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>{{ furniture.name }}</h1>
+    <img src="{{ furniture.image.url }}" alt="{{ furniture.name }}" class="img-fluid mb-3">
+    <p><strong>Категория:</strong> {{ furniture.category.name }}</p>
+    <p><strong>Цена:</strong> {{ furniture.price }}</p>
+    <p><strong>Количество в наличии:</strong> {{ furniture.stock }}</p>
+    {% if furniture.detail %}
+        <p><strong>Описание:</strong> {{ furniture.detail.description }}</p>
+        <p><strong>Материал:</strong> {{ furniture.detail.material }}</p>
+        <p><strong>Цвет:</strong> {{ furniture.detail.color }}</p>
+        <p><strong>Размеры:</strong> {{ furniture.detail.dimensions }}</p>
+        <p><strong>Вес:</strong> {{ furniture.detail.weight }} кг</p>
+        <p><strong>Производитель:</strong> {{ furniture.detail.manufacturer }}</p>
+        <p><strong>Гарантия:</strong> {{ furniture.detail.warranty_period }}</p>
+        <p><strong>Инструкции по уходу:</strong> {{ furniture.detail.care_instructions }}</p>
+        <p><strong>Дополнительные функции:</strong> {{ furniture.detail.additional_features }}</p>
+    {% else %}
+        <p>Нет дополнительной информации.</p>
+    {% endif %}
+
+    <a href="{% url 'add_to_cart' furniture.id %}" class="btn btn-success mt-3">Добавить в корзину</a>
+    <a href="{% url 'shop' %}" class="btn btn-primary mt-3">Вернуться к списку</a>
+</div>
+{% endblock %}
