@@ -2,6 +2,8 @@ from django.db import models
 from apps.users.models import CustomUser
 from apps.shop.models import Furniture
 import random
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 class Order(models.Model):
@@ -18,6 +20,20 @@ class Order(models.Model):
     order_notes = models.TextField(blank=True, null=True)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    def send_order_confirmation_email(self):
+        subject = f"Подтверждение заказа - {self.id}"
+        message = f"Уважаемый(ая) {self.first_name} {self.last_name},\n\n" \
+                  f"Спасибо за ваш заказ!\n\n" \
+                  f"Детали заказа:\n" \
+                  f"ID заказа: {self.id}\n" \
+                  f"Общая стоимость: ${self.total_price}\n\n" \
+                  f"Мы уведомим вас, как только ваш заказ будет отправлен.\n\n" \
+                  f"С уважением,\n" \
+                  f"Команда FurniYeldos"
+        
+        recipient_list = [self.email]
+        send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, recipient_list)
     
     def __str__(self):
         return f"Order {self.id} - {self.first_name} {self.last_name}"
@@ -70,3 +86,4 @@ class PromoCode(models.Model):
     
     def __str__(self):
         return self.code
+    

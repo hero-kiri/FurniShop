@@ -86,6 +86,7 @@ def checkout_view(request):
             )
         cart.items.all().delete()
         messages.success(request, 'Заказ успешно создан')
+        order.send_order_confirmation_email()
         return redirect('thankyou')
     
     context = {
