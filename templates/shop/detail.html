@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% block title %} Мебели {% endblock title %}
 {% block content %}
 <div class="container mt-5">
     <h1>{{ furniture.name }}</h1>
@@ -25,3 +25,6 @@
     <a href="{% url 'shop' %}" class="btn btn-primary mt-3">Вернуться к списку</a>
 </div>
 {% endblock %}
+
+
+	

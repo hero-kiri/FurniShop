@@ -15,6 +15,8 @@ def logout_view(request):
 
 def register_view(request):
     if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
         username = request.POST.get('username')
         email = request.POST.get('email')
         phone_number = request.POST.get('phone_number')
@@ -38,11 +40,13 @@ def register_view(request):
         
         
         user = CustomUser.objects.create(
+            first_name=first_name,
+            last_name=last_name,
             username=username,
             email=email,
-            phone_number=phone_number,
-            password=password1
+            phone_number=phone_number
         )
+        user.set_password(password1)
         user.auth_code = str(random.randint(100000, 999999))
 
         user.save()

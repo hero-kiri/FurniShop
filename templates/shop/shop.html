@@ -1,5 +1,5 @@
 {% extends 'base.html' %} 
-
+{% block title %} Мебели {% endblock title %}
 {% load static %}
 
 {% block content %}
@@ -9,11 +9,15 @@
 					<div class="row justify-content-between">
 						<div class="col-lg-5">
 							<div class="intro-excerpt">
-								<h1>Shop</h1>
+								<h1>Магазин</h1>
+								<p class="mb-4">Лучшие товары по всей Азии</p>
+								<p><a href="" class="btn btn-secondary me-2">Shop Now</a><a href="#" class="btn btn-white-outline">Explore</a></p>
 							</div>
 						</div>
 						<div class="col-lg-7">
-							
+							<div class="hero-img-wrap">
+								<img src="{% static 'images/couch.png' %}" class="img-fluid">
+							</div>
 						</div>
 					</div>
 				</div>

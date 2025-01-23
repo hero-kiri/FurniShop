@@ -1,7 +1,7 @@
 from django.db import models
 from apps.users.models import CustomUser
 from apps.shop.models import Furniture
-
+import random
 
 
 class Order(models.Model):
@@ -16,7 +16,7 @@ class Order(models.Model):
     email = models.EmailField()
     phone = models.CharField(max_length=20)
     order_notes = models.TextField(blank=True, null=True)
-    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
@@ -34,17 +34,39 @@ class OrderItem(models.Model):
 class Cart(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    coupon = models.ForeignKey('PromoCode', on_delete=models.SET_NULL, null=True, blank=True)
 
+    @property
     def total_price(self):
-        return sum(item.total_price() for item in self.items.all())
+        if self.coupon:
+            discount = self.coupon.discount
+            total_price = sum(item.total_price for item in self.items.all())
+            return total_price - (total_price * discount / 100)
+        return sum(item.total_price for item in self.items.all())
+    
+    @property
+    def total_intermediate_price(self):
+        return sum(item.total_price for item in self.items.all())
 
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
     furniture = models.ForeignKey(Furniture, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=0)
 
+    @property
     def total_price(self):
         return self.furniture.price * self.quantity
     
     def __str__(self):
         return f"{self.furniture.name} (x{self.quantity}) {self.cart.user.first_name}"
+    
+
+class PromoCode(models.Model):
+    code = models.CharField(max_length=20, unique=True)
+    discount = models.PositiveIntegerField()
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expired_at = models.DateTimeField()
+    
+    def __str__(self):
+        return self.code

@@ -17,9 +17,6 @@ class CustomUserManager(UserManager):
         return user # Возвращает экземпляр
     
     def create_superuser(self,email, password = None, **extra_fields):
-        '''
-         
-        '''
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('is_active', True)
@@ -36,9 +33,6 @@ class CustomUserManager(UserManager):
 
 
 class CustomUser(AbstractUser):
-    """
-    
-    """
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
@@ -52,3 +46,4 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.email
+

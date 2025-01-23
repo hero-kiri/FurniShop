@@ -15,7 +15,7 @@
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 		<link href="{% static 'css/tiny-slider.css' %}" rel="stylesheet">
 		<link href="{% static 'css/style.css' %}" rel="stylesheet">
-		<title>Furni Free Bootstrap 5 Template for Furniture and Interior Design Websites by Untree.co </title>
+		<title>{% block title %} {% endblock title %} </title>
 	</head>
 
 	<body>
@@ -34,21 +34,19 @@
 					
 					<ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
 						<li class="nav-item active">
-							<a class="nav-link" href="{% url 'index' %}">Home</a>
+							<a class="nav-link" href="{% url 'index' %}">Главная</a>
 						</li>
-						<li><a class="nav-link" href="{% url 'shop' %}">Shop</a></li>
-						<li><a class="nav-link" href="{% url 'about' %}">About us</a></li>
-						<li><a class="nav-link" href="{% url 'services' %}">Services</a></li>
-						<li><a class="nav-link" href="{% url 'blog' %}">Blog</a></li>
-						<li><a class="nav-link" href="{% url 'contact' %}">Contact us</a></li>
+						<li><a class="nav-link" href="{% url 'shop' %}">Магазин</a></li>
+						<li><a class="nav-link" href="{% url 'about' %}">О нас</a></li>
+						<li><a class="nav-link" href="{% url 'services' %}">Сервисы</a></li>
+						<li><a class="nav-link" href="{% url 'blog' %}">Блог</a></li>
+						<li><a class="nav-link" href="{% url 'contact' %}">Связаться</a></li>
 						{% if user.is_authenticated %}
-						<li class="nav-item">
-							<a class="nav-link" href="#">{{user.username}} </a>
-							<a class="nav-link" href="{% url 'logout' %}">Выйти</a>
-						</li>
+						<li><a class="nav-link" href="#">{{user.username}} </a></li>
+							<li><a class="nav-link" href="{% url 'logout' %}">Выйти</a></li>
 						{% else %}
-						<li><a class="nav-link" href="{% url 'register' %}">Регистрация </a></li>
-						<li><a class="nav-link" href="{% url 'login' %}">Авторизация</a></li>
+							<li><a class="nav-link" href="{% url 'register' %}">Регистрация </a></li>
+							<li><a class="nav-link" href="{% url 'login' %}">Авторизация</a></li>
 						{% endif %}
 					</ul>
 
@@ -67,10 +65,8 @@
 				{% for message in messages %}
 				<li class="message {{ message.tags }}">{{ message }}</li>
 				{% endfor %}
-
 			</ul>
 			{% endif %}
-
 		</div>
 
         {% block content %}
@@ -186,6 +182,14 @@
 		<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 		<script src="{% static 'js/tiny-slider.js' %}"></script>
 		<script src="{% static 'js/custom.js' %}"></script>
+		<script>
+			setTimeout(function() {
+				var messages = document.querySelector('.messages');
+				if (messages) {
+					messages.style.display = 'none';
+				}
+			}, 3000);
+		</script>
 	</body>
 
 </html>
