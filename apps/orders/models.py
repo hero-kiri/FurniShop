@@ -22,12 +22,15 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     def send_order_confirmation_email(self):
+        products = '\n'.join([f"{item.furniture.name} (x{item.quantity})" for item in self.items.all()])
         subject = f"Подтверждение заказа - {self.id}"
         message = f"Уважаемый(ая) {self.first_name} {self.last_name},\n\n" \
                   f"Спасибо за ваш заказ!\n\n" \
                   f"Детали заказа:\n" \
                   f"ID заказа: {self.id}\n" \
                   f"Общая стоимость: ${self.total_price}\n\n" \
+                  f"Товары:\n" \
+                  f"{products}\n\n" \
                   f"Мы уведомим вас, как только ваш заказ будет отправлен.\n\n" \
                   f"С уважением,\n" \
                   f"Команда FurniYeldos"

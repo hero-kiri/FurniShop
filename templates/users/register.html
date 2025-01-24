@@ -10,8 +10,16 @@
                     {% csrf_token %}
                     <!-- Имя пользователя -->
                     <div class="form-group">
-                        <label for="username">Имя пользователя:</label>
-                        <input type="text" id="username" name="username" required placeholder="Введите имя пользователя">
+                        <label for="first_name">Имя пользователя:</label>
+                        <input type="text" id="first_name" name="first_name" required placeholder="Введите имя пользователя">
+                    </div>
+                    <div class="form-group">
+                        <label for="last_name">Фамилия пользователя:</label>
+                        <input type="text" id="last_name" name="last_name" required placeholder="Введите фамилию пользователя">
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Ник пользователя:</label>
+                        <input type="text" id="username" name="username" required placeholder="Введите ник пользователя">
                     </div>
                     <div class="form-group">
                         <label for="phone">Телефон:</label>

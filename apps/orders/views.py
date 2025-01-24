@@ -85,6 +85,7 @@ def checkout_view(request):
                 price=item.total_price
             )
         cart.items.all().delete()
+        cart.delete()
         messages.success(request, 'Заказ успешно создан')
         order.send_order_confirmation_email()
         return redirect('thankyou')
