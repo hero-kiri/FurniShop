@@ -7,6 +7,14 @@ from django.conf import settings
 
 
 class Order(models.Model):
+    
+    ORDER_STATUS = (
+        ('Новый', 'Новый'),
+        ('В обработке', 'В обработке'),
+        ('Отправлен', 'Отправлен'),
+        ('Доставлен', 'Доставлен'),
+    )
+
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -20,6 +28,9 @@ class Order(models.Model):
     order_notes = models.TextField(blank=True, null=True)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    status = models.CharField(max_length=20, choices=ORDER_STATUS, default='Новый')
     
     def send_order_confirmation_email(self):
         products = '\n'.join([f"{item.furniture.name} (x{item.quantity})" for item in self.items.all()])
@@ -46,6 +57,10 @@ class OrderItem(models.Model):
     furniture = models.ForeignKey(Furniture, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    
+    @property
+    def total_price(self):
+        return self.furniture.price * self.quantity
     
     def __str__(self):
         return f"{self.furniture.name} (x{self.quantity})"
@@ -90,3 +105,4 @@ class PromoCode(models.Model):
     def __str__(self):
         return self.code
     
+

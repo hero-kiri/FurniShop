@@ -2,11 +2,13 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, logout
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 import random
 
 from .models import CustomUser
 from .utils import send_code_email
+from apps.orders.models import Order
 
 def logout_view(request):
     logout(request)
@@ -100,3 +102,26 @@ def login_view(request):
 
     return render(request, 'users/login.html')
 
+@login_required
+def profile_view(request):
+    user = request.user
+    orders = Order.objects.filter(user=user)
+    return render(request, 'users/profile.html', {'user': user, 'orders': orders})
+
+
+@login_required
+def update_profile(request):
+    if request.method == 'POST':
+        user = request.user
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')
+        user.phone_number = request.POST.get('phone_number')
+        
+        if 'image' in request.FILES:
+            user.image = request.FILES['image']
+        
+        user.save()
+        messages.success(request, 'Профиль успешно обновлен')
+        return redirect('profile')
+    return render(request, 'users/profile.html')

@@ -33,6 +33,7 @@ class CustomUserManager(UserManager):
 
 
 class CustomUser(AbstractUser):
+    image = models.ImageField(upload_to='users/', blank=True, null=True)
     username = models.CharField(max_length=150, unique=True)
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=20, blank=True, null=True)

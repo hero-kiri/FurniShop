@@ -10,7 +10,7 @@ urlpatterns = [
     
     path('thankyou/', views.thankyou_view, name='thankyou'),
     path('checkout/', views.checkout_view, name='checkout'),
-    path('order_history/', views.order_history_view, name='order_history'),
+    path('order_detail/<int:order_id>', views.order_detail_view, name='order_detail'),
     
     path('apply_promo_code/<str:redirect_url>', views.apply_promo_code, name='apply_promo_code'),
 ]

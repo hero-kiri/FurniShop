@@ -121,3 +121,9 @@ def apply_promo_code(request, redirect_url):
         else:
             messages.error(request, 'Промокод не найден')
     return redirect(redirect_url)
+
+
+@login_required
+def order_detail_view(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    return render(request, 'orders/order_detail.html', {'order': order})

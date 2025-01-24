@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %} Детали заказа {% endblock title %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="h3 mb-3 text-black">Детали заказа</h2>
+            <div class="p-3 p-lg-5 border bg-white">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h4 class="text-black">Информация о заказе</h4>
+                        <p>Номер заказа: {{ order.id }}</p>
+                        <p>Дата: {{ order.created_at }}</p>
+                        <p>Статус: {{ order.status }}</p>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <h4 class="text-black">Итого: ${{ order.total_price }}</h4>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <h4 class="text-black">Товары в заказе</h4>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Изображение</th>
+                                    <th>Продукт</th>
+                                    <th>Цена</th>
+                                    <th>Количество</th>
+                                    <th>Итого</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in order.items.all %}
+                                <tr>
+                                    <td class="furniture-thumbnail">
+                                        <img src="{{ item.furniture.image.url }}" alt="Image" class="img-fluid" width="150px" />
+                                    </td>
+                                    <td class="furniture-name">
+                                        <h2 class="h5 text-black">{{ item.furniture.name }}</h2>
+                                    </td>
+                                    <td>${{ item.furniture.price }}</td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td>${{ item.total_price }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="{% url 'profile' %}" class="btn btn-black btn-lg py-3 btn-block">Вернуться к профилю</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}</td></div>
