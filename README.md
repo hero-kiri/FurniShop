@@ -3,8 +3,8 @@
 ## Клонирование проекта
 
 ```bash
-git clone git@github.com:hero-kiri/FurniDjango.git
-cd FurniDjango
+git clone git@github.com:hero-kiri/FurniShop.git
+cd FurniShop
 ```
 
 ## Настройка виртуального окружения
