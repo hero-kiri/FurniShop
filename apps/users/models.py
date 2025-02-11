@@ -31,7 +31,6 @@ class CustomUserManager(UserManager):
     def create(self, **kwargs):
         return super().create(**kwargs)
 
-
 class CustomUser(AbstractUser):
     image = models.ImageField(upload_to='users/', blank=True, null=True)
     username = models.CharField(max_length=150, unique=True)
